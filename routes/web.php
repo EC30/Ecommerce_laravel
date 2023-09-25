@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductSubCategoryController;
 use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Http\Request;
 
 /*
@@ -27,6 +28,7 @@ use Illuminate\Http\Request;
 //     return view('welcome');
 // });
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::get('/shop', [ShopController::class, 'index'])->name('front.shop');
 
 Route::get('/admin/login', [AdminloginController::class, 'index'])->name('admin.login');
 Route::group(['prefix'=>'admin'],function(){

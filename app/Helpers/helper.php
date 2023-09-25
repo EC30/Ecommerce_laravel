@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategory;
@@ -13,5 +14,9 @@ use App\Models\SubCategory;
     }
     function getAllProduct(){
         return Product::OrderBy('title', 'ASC')->with('product_image')->get();
+    }
+    function getBrands(){
+        return Brand::OrderBy('name', 'ASC')->where('status', 1)->get();
+        
     }
 ?>
