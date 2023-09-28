@@ -101,8 +101,8 @@
             <h2>Categories</h2>
         </div>           
         <div class="row pb-3">
-            @if(getCategories()->isNotEmpty())
-                @foreach(getCategories() as $category)
+            @if(getAllCategories()->isNotEmpty())
+                @foreach(getAllCategories() as $category)
                     <div class="col-lg-3">
                         <div class="cat-card">
                             <div class="left" style="width: 200px; height: 200px; background-image: url('{{ asset('images/' . $category->image) }}'); background-size: cover;"></div>

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{ asset('user_assests/css/ion.rangeSlider.min.css') }}">
 @extends('user.layout.app')
 @section('contents')
 <section class="section-5 pt-3 pb-3 mb-3 bg-white">
@@ -21,21 +22,24 @@
                 
                 <div class="card">
                     <div class="card-body">
-                    @if(getCategories()->isNotEmpty())
-                    @foreach(getCategories() as $category)
-                    
+                    @if(getAllCategories()->isNotEmpty())
+                    @foreach(getAllCategories() as $category)
                         <div class="accordion accordion-flush" id="accordionExample">
                             <div class="accordion-item">
+                                @if($category->sub_category->isNotEmpty())
                                 <h2 class="accordion-header" id="headingOne">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                         {{$category->name}}
                                     </button>
                                 </h2>
+                                @else
+                                <a href="{{route("front.shop",$category->name)}}" class="nav-item nav-link">{{$category->name}}</a>
+                                @endif
                                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
                                     <div class="accordion-body">
                                         <div class="navbar-nav">
-                                            @foreach($category->sub_category as $subcategory)
-                                            <a href="" class="nav-item nav-link">{{$subcategory->name}}</a>
+                                            @foreach($category->sub_category as $subCategory)
+                                            <a href="{{route("front.shop",[$category->name,$subCategory->name])}}" class="nav-item nav-link">{{$subCategory->name}}</a>
                                             @endforeach                                           
                                         </div>
                                     </div>
@@ -55,11 +59,11 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        @if(getBrands()->isNotEmpty())
-                        @foreach(getBrands() as $brand)
+                        @if($brands->isNotEmpty())
+                        @foreach($brands as $brand)
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input {{(in_array($brand->id, $brandsArray)) ? 'checked' : ''}} class="form-check-input brand-label" type="checkbox" name="brand[]" value="{{$brand->id}}" id="brand-{{ $brand->id }}">
+                            <label class="form-check-label" for="brand-{{$brand->id}}">
                                 {{$brand->name}}
                             </label>
                         </div>
@@ -68,6 +72,28 @@
                                        
                     </div>
                 </div>
+              
+                    {{-- <div class="card">
+                        <div class="card-body">
+                            <h2>Filter by Brand</h2>
+                            @if($brands->isNotEmpty())
+                            @foreach($brands as $brand)
+                            <form method="GET" action="{{ route('front.brand',[$brand->name]) }}">
+                                @csrf
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" name="brand[]" value="{{ $brand->id }}" id="brand-{{ $brand->id }}">
+                                <label class="form-check-label" for="brand-{{ $brand->id }}">
+                                    {{ $brand->name }}
+                                </label>
+                            </div>
+                            <button type="submit">Apply Filters</button>
+                            </form>
+                            @endforeach
+                            @endif
+                        </div>
+                    </div> --}}
+
+               
 
                 <div class="sub-title mt-5">
                     <h2>Price</h3>
@@ -75,30 +101,7 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                $0-$100
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                $100-$200
-                            </label>
-                        </div>                 
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                $200-$500
-                            </label>
-                        </div> 
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                $500+
-                            </label>
-                        </div>                 
+                        <input type="text" class="js-range-slider" name="my_range" value="" />               
                     </div>
                 </div>
             </div>
@@ -108,19 +111,24 @@
                         <div class="d-flex align-items-center justify-content-end mb-4">
                             <div class="ml-2">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">Sorting</button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Latest</a>
-                                        <a class="dropdown-item" href="#">Price High</a>
-                                        <a class="dropdown-item" href="#">Price Low</a>
-                                    </div>
+                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">Sorting
+                                        
+                                    </button>
+                                    {{-- <a href="{{ route('front.shop', ['sort' => 'price_low_high']) }}">Price Low to High</a>
+                                    <a href="{{ route('front.shop', ['sort' => 'price_high_low']) }}">Price High to Low</a> --}}
+                                    <select name="sort" id="sort" class="sort">
+                                        <option value="latest" {{($sort == 'latest') ? 'selected' : '' }}>Latest</option>
+                                        <option value="price_high_low" {{($sort == 'price_high_low') ? 'selected' : ''}}>Price High to Low</option>
+                                        <option value="price_low_high" {{ ($sort == 'price_low_high') ? 'selected' : '' }}>Price Low to High</option>
+                                    </select>
                                 </div>                                    
+                              
                             </div>
                         </div>
                     </div>
 
-                    @if(getAllProduct()->isNotEmpty())
-                    @foreach(getAllProduct() as $product)
+                    @if($products->isNotEmpty())
+                    @foreach($products as $product)
                     <div class="col-md-4">
                             <div class="card product-card" style="width:300px;height:400px;">
                                 <div class="product-image position-relative ">
@@ -155,6 +163,14 @@
                                                                       
                     </div>  
                     @endforeach
+                    @else
+                    <div class="col-md-8">
+                  
+                                                   
+                                <h1> No product to show </h1>
+                                   
+                                                                  
+                </div>  
                     @endif  
                      
 
@@ -178,4 +194,61 @@
         </div>
     </div>
 </section>
+@endsection
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{asset('user_assests/js/ion.rangeSlider.min.js')}}"></script>
+@section('customjs')
+<script>
+    var slider = $(".js-range-slider").data("ionRangeSlider");
+    $(".js-range-slider").ionRangeSlider({
+        type: "double",
+        min: 100,     
+        max: 7000, 
+        from: {{($priceMin)}},  
+        step: 10,   
+        to: {{($priceMax)}},
+        skin:"round",
+        max_postfix:"+",
+        prefix:"$",
+        onChange:function(data){
+            apply_filters(data.from, data.to);
+            console.log(data.to);
+        }
+        
+    });
+
+  
+
+    $(".brand-label").change(function(){
+        apply_filters();
+    });
+    $(".sort").change(function(){
+        apply_filters();
+    });
+
+
+    function apply_filters(pricemin={{($priceMin)}}, pricemax={{($priceMax)}}){
+        // var pricemin=
+        // var pricemax=
+        var brands=[];
+        $(".brand-label").each(function(){
+            if($(this).is(":checked")==true){
+                brands.push($(this).val());
+            }
+        });
+        //console.log(brands);
+        var url ='{{url()->current()}}?';
+
+        if(brands.length>0){
+            url+='&brand='+brands.toString();
+        }
+        url += '&price_min=' + pricemin + '&price_max=' + pricemax;
+
+        url += '&sort=' + $("#sort").val();
+        window.location.href=url;
+    }
+    
+</script>
+
+
 @endsection
