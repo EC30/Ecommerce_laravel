@@ -123,16 +123,16 @@
     <div class="container">
         <div class="section-title">
             <h2>Featured Products</h2>
-        </div>    
+        </div> 
         <div class="row pb-3">
-            @if(getProduct()->isNotEmpty())
-            @foreach(getProduct() as $product)
+        @if(getProduct()->isNotEmpty())
+        @foreach(getProduct() as $product)      
             <div class="col-md-3">
-                <div class="card product-card">
-                    <div class="product-image position-relative">
+                <div class="card product-card" style="width:300px;height:400px;">
+                    <a href="" class="product-image position-relative">
                         @if($product->product_image->isNotEmpty())
                            @foreach($product->product_image as $pimages)
-                           <a href="" class="product-img"><div class="left" style="width: 200px; height: 200px; background-image: url('{{ asset('temp/' . $pimages->image) }}'); background-size: cover;"></div></a>
+                           <a href="{{route('front.product',$product->title)}}" class="product-img"><div class="left" style="width: 300px; height: 200px; background-image: url('{{ asset('temp/' . $pimages->image) }}'); background-size: cover;"></div></a>
                            @endforeach
                        @endif
                         <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
@@ -142,7 +142,7 @@
                                 <i class="fa fa-shopping-cart"></i> Add To Cart
                             </a>                            
                         </div>
-                    </div>                        
+                    </a>                        
                     <div class="card-body text-center mt-3">
                         <a class="h6 link" href="product.php">{{$product->title}}</a>
                         <div class="price mt-2">
@@ -154,10 +154,11 @@
                     </div>                        
                 </div>                                               
             </div>  
-            @endforeach
-            @endif
-
+  
+        @endforeach
+        @endif
         </div>
+
     </div>
 </section>
 
@@ -170,14 +171,14 @@
             @if(getAllProduct()->isNotEmpty())
             @foreach(getAllProduct() as $product)
             <div class="col-md-3">
-                <div class="card product-card" style="width:400px;height:400px;">
+                <div class="card product-card" style="width:300px;height:400px;">
                     <div class="product-image ">
                         @if($product->product_image->isNotEmpty())
                         @foreach($product->product_image as $pimages)
-                        <a href="" class="product-img" style="width: 200px; height: 200px; background-image: url('{{ asset('temp/' . $pimages->image) }}'); background-size: cover;background-position: center center;"></a>
+                        <a href="{{route('front.product',$product->title)}}" class="product-img" style="width: 300px; height: 200px; background-image: url('{{ asset('temp/' . $pimages->image) }}'); background-size: cover;background-position: center center;"></a>
                         @endforeach
                         @else
-                        <a href="" class="product-img"><div class="left" style="width: 200px; height: 200px; background-image: url('{{asset('user_assests/images/carousel-3-m.jpg')}}'); background-size: cover;background-position: center center;"></div></a>
+                        <a href="{{route('front.product',$product->title)}}" class="product-img"><div class="left" style="width: 200px; height: 200px; background-image: url('{{asset('user_assests/images/carousel-3-m.jpg')}}'); background-size: cover;background-position: center center;"></div></a>
                         {{-- <a href="" class="product-img"><img class="card-img-top" src="{{asset('user_assests/images/carousel-3-m.jpg')}}" alt=""></a> --}}
                         @endif
                        

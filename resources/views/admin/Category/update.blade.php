@@ -79,9 +79,9 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control" value="{{$category->status}}">
-                                    <option {{ $category->status == 1 ? 'selected' : '' }} value="1">Active</option>
-                                    <option {{ $category->status == 0 ? 'selected' : '' }} value="0">Block</option>
+                                <select name="status" id="status" class="form-control">
+                                    <option value="1" {{ $category->status == 1 ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ $category->status == 0 ? 'selected' : '' }}>Block</option>
                                 </select>
 
                                 @error('status')
@@ -93,8 +93,8 @@
                             <div class="mb-3">
                                 <label for="show">Show on home</label>
                                 <select name="show" id="show" class="form-control">
-                                    <option value="No" {{ ($category->show == 'Yes') ? 'selected' : '' }} value="No">No</option>
-                                    <option value="Yes" {{ ($category->show == 'No') ? 'selected' : '' }} value="Yes">Yes</option>
+                                    <option value="No" {{ $category->show == 'No' ? 'selected' : '' }}>No</option>
+                                    <option value="Yes" {{ $category->show == 'Yes' ? 'selected' : '' }}>Yes</option>
                                 </select>
                                 
                                 @error('show')

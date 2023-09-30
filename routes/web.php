@@ -11,6 +11,8 @@ use App\Http\Controllers\admin\ProductSubCategoryController;
 use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserloginController;
 use Illuminate\Http\Request;
 
 /*
@@ -28,8 +30,30 @@ use Illuminate\Http\Request;
 //     return view('welcome');
 // });
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
-Route::get('/shop/{categoryname?}/{subCategoryname?}', [FrontController::class, 'index'])->name('front.shop');
-Route::get('/shop/{brandname?}', [FrontController::class, 'index'])->name('front.brand');
+Route::get('/shop/{categoryname?}/{subCategoryname?}', [ShopController::class, 'index'])->name('front.shop');
+Route::get('/shop/{brandname?}', [ShopController::class, 'index'])->name('front.brand');
+//Route::get('/product/{title}', [ShopController::class, 'shopCart'])->name('front.product');
+Route::get('/products/{title}', [ShopController::class, 'product'])->name('front.product');
+
+
+
+Route::group(['prefix'=>'user'],function(){
+    Route::group(['middleware'=>'guest'],function(){
+        Route::get('/register', [UserloginController::class, 'register'])->name('user.register');
+        Route::get('/login', [UserloginController::class, 'login'])->name('user.login');
+        Route::post('/authenticate', [UserloginController::class, 'authenticate'])->name('user.authenticate');
+        Route::post('/create', [UserloginController::class, 'create'])->name('user.create');
+    
+
+        });
+    Route::group(['middleware'=>'auth'],function(){
+        Route::get('/profile', [UserloginController::class, 'profile'])->name('user.profile');
+        Route::get('/logout', [UserloginController::class, 'logout'])->name('user.logout');
+    });
+});
+
+Route::get('/product/{title}', [CartController::class, 'addToCart'])->name('front.addcart');
+Route::get('/cart', [CartController::class, 'cart'])->name('front.cart');
 
 Route::get('/admin/login', [AdminloginController::class, 'index'])->name('admin.login');
 Route::group(['prefix'=>'admin'],function(){

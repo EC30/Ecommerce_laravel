@@ -134,17 +134,17 @@
                                 <div class="product-image position-relative ">
                                     @if($product->product_image->isNotEmpty())
                                     @foreach($product->product_image as $pimages)
-                                    <a href="" class="product-img" style="width: 300px; height: 300px; background-image: url('{{ asset('temp/' . $pimages->image) }}'); background-size: cover;background-position: center center;"></a>
+                                    <a href="{{route('front.product',$product->title)}}" class="product-img" style="width: 300px; height: 300px; background-image: url('{{ asset('temp/' . $pimages->image) }}'); background-size: cover;background-position: center center;"></a>
                                     @endforeach
                                     @else
-                                    <a href="" class="product-img"><div class="left" style="width: 300px; height: 300px; background-image: url('{{asset('user_assests/images/carousel-3-m.jpg')}}'); background-size: cover;background-position: center center;"></div></a>
+                                    <a href="{{route('front.product',$product->title)}}" class="product-img"><div class="left" style="width: 300px; height: 300px; background-image: url('{{asset('user_assests/images/carousel-3-m.jpg')}}'); background-size: cover;background-position: center center;"></div></a>
                                     {{-- <a href="" class="product-img"><img class="card-img-top" src="{{asset('user_assests/images/carousel-3-m.jpg')}}" alt=""></a> --}}
                                     @endif
                                    
                                     <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
             
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="#">
+                                        <a class="btn btn-dark" href="}">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
                                         </a>                            
                                     </div>

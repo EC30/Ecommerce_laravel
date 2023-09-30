@@ -35,7 +35,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('user_assests/css/slick-theme.css')}}" />
 	<link rel="stylesheet" type="text/css" href="{{asset('user_assests/css/style.css')}}" />
 	<link rel="stylesheet" type="text/css" href="{{asset('user_assests/css/ion.rangeSlider.min.css')}}" />
-
+	{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +56,7 @@
 				</a>
 			</div>
 			<div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
-				<a href="account.php" class="nav-link text-dark">My Account</a>
+				<a href="{{route('user.register')}}" class="nav-link text-dark">My Account</a>
 				<form action="">					
 					<div class="input-group">
 						<input type="text" placeholder="Search For Products" class="form-control" aria-label="Amount (to the nearest dollar)">
@@ -115,6 +115,12 @@
 </header>
 
 <main>
+	@if ($message = Session::get('message'))
+	<div class="alert alert-success">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<strong>{{ $message }}</strong>
+	</div>
+	@endif
 	@yield('contents')
 </main>
 
@@ -149,7 +155,7 @@
 					<h3>My Account</h3>
 					<ul>
 						<li><a href="#" title="Sell">Login</a></li>
-						<li><a href="#" title="Advertise">Register</a></li>
+						<li><a href="{{route('user.register')}}" title="Advertise">Register</a></li>
 						<li><a href="#" title="Contact Us">My Orders</a></li>						
 					</ul>
 				</div>
@@ -168,13 +174,14 @@
 		</div>
 	</div>
 </footer>
-<script src="{{asset('user_assests/js/jquery-3.6.0.min.js')}}"></script>
-<script src="{{asset('user_assests/js/bootstrap.bundle.5.1.3.min.js')}}"></script>
-<script src="{{asset('user_assests/js/instantpages.5.1.0.min.js')}}"></script>
-<script src="{{asset('user_assests/js/lazyload.17.6.0.min.js')}}"></script>
-<script src="{{asset('user_assests/js/slick.min.js')}}"></script>
-<script src="{{asset('user_assests/js/ion.rangeSlider.min.js')}}"></script>
-<script src="{{asset('user_assests/js/custom.js')}}"></script>
+<script src="{{ asset('user_assests/js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('user_assests/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
+<script src="{{ asset('user_assests/js/instantpages.5.1.0.min.js') }}"></script>
+<script src="{{ asset('user_assests/js/lazyload.17.6.0.min.js') }}"></script>
+<script src="{{ asset('user_assests/js/slick.min.js') }}"></script>
+<script src="{{ asset('user_assests/js/ion.rangeSlider.min.js') }}"></script>
+<script src="{{ asset('user_assests/js/custom.js') }}"></script>
+
 <script>
 window.onscroll = function() {myFunction()};
 

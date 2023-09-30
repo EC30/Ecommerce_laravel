@@ -51,8 +51,8 @@
                             <div class="mb-3">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="form-control" value="{{$Brand->status}}">
-                                    <option value="1" {{ $Brand->status == 1 ? 'selected' : '' }}>Active</option>
-                                    <option value="2" {{ $Brand->status == 2 ? 'selected' : '' }}>Block</option>
+                                    <option value="1" {{ $brand->status == 1 ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ $brand->status == 0 ? 'selected' : '' }}>Block</option>
                                 </select>
 
                                 @error('status')

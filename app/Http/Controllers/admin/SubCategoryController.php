@@ -106,7 +106,7 @@ class SubCategoryController extends Controller
                 ->withInput();
         }
     
-        // Update category data
+        // Update subcategory data
         $subcategory->name = $request->input('name');
         $subcategory->slug = $request->input('slug');
         $subcategory->status = $request->input('status');
@@ -114,6 +114,7 @@ class SubCategoryController extends Controller
         $subcategory->show = $request->input('show');
        
         $subcategory->save();
+        //dd($subcategory);
     
         return redirect()->route('subcategory.index')->with('message', 'Category updated successfully');
         

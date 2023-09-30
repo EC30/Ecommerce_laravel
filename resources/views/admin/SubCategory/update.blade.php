@@ -31,7 +31,9 @@
                             <select name="category" id="category" class="form-control">
                                 @if($categories->isNotEmpty())
                                 @foreach($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->id}}" {{ $subcategory->category_id == $category->id ? 'selected' : '' }}>
+                                    {{$category->name}}
+                                </option>
                                 @endforeach
                                 @endif
                             </select>
@@ -41,8 +43,8 @@
                         <div class="mb-3">
                             <label for="status">Status</label>
                             <select name="status" id="status" class="form-control">
-                                <option value="1">Active</option>
-                                <option value="2">Block</option>
+                                <option value="1" {{ $subcategory->status == 1 ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ $subcategory->status == 0 ? 'selected' : '' }}>Block</option>
                             </select>      
                         </div>
                     </div>
@@ -50,10 +52,9 @@
                         <div class="mb-3">
                             <label for="show">Show on home</label>
                             <select name="show" id="show" class="form-control">
-                                <option value="No" {{ ($subcategory->show == 'Yes') ? 'selected' : '' }} value="Yes">No</option>
-                                <option value="Yes" {{ ($subcategory->show == 'No') ? 'selected' : '' }} value="No">Yes</option>
+                                <option value="No" {{ $subcategory->show == 'No' ? 'selected' : '' }}>No</option>
+                                <option value="Yes" {{ $subcategory->show == 'Yes' ? 'selected' : '' }}>Yes</option>
                             </select>
-                            
                             @error('show')
                                 <p class="invalid-feedback">{{$message}}</p>
                             @enderror        
