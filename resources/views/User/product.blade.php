@@ -1,3 +1,4 @@
+<meta name="csrf-token" content="{{csrf_token()}}">
 @extends('user.layout.app')
 @section('contents')
 <section class="section-5 pt-3 pb-3 mb-3 bg-white">
@@ -55,8 +56,10 @@
 
                     <p>{{ $product->description }}</p>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis officiis dolor aut nihil iste porro ullam repellendus inventore voluptatem nam veritatis exercitationem doloribus voluptates dolorem nobis voluptatum qui, minus facere.</p>
-                        <a href="cart.php" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
-                    {{-- <a href="cart.php" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a> --}}
+                    {{-- <a href="javascript:void(0);" onclick="addToCart({{$product->id}});" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a> --}}
+                    {{-- <a href="javascript:void(0);" onclick="addToCart({{ $product->id }});" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a> --}}
+                    
+                    <button onclick="addToCart({{ $product->id }})" data-add-to-cart-url="{{ route('user.addtocart') }}" class="btn btn-dark"><i class="fas fa-shopping-cart"></i>>Add to cart</button>
                 </div>
             </div>
 
@@ -95,17 +98,34 @@
 
 @endsection
 @section('customjs')
-{{-- <script type="text/javascript">
-function addToCart(id){
-    $.ajax({
-        url: '{{route('front.addcart')}}',
-        type: 'post',
-        data: {id:id},
-        dataType: 'json',
-        suceess: function(response){
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+$.ajaxSetup({
+    headers: {
+    "X-CSRF-Token": $('meta[name="csrf-token"]').attr('content')
+  }
+});
+  function addToCart(id) {
+    var addToCartUrl = $('button[onclick*="addToCart("]').data('add-to-cart-url');
 
+    $.ajax({
+        url: addToCartUrl,
+        type: 'post',
+        data: { id: id },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === true) {
+                window.location.href = "{{ route('user.cart') }}";
+                alert('Product added to cart successfully');
+            } else {
+                alert('Product could not be added to cart. ' + response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('An error occurred while adding the product to the cart.');
         }
     });
 }
-</script> --}}
+
+</script>
 @endsection

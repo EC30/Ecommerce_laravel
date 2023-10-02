@@ -138,9 +138,9 @@
                         <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
 
                         <div class="product-action">
-                            <a class="btn btn-dark" href="#">
-                                <i class="fa fa-shopping-cart"></i> Add To Cart
-                            </a>                            
+                          
+                                <button onclick="addToCart({{ $product->id }})" data-add-to-cart-url="{{ route('user.addtocart') }}" class="btn btn-dark"><i class="fas fa-shopping-cart"></i>>Add to cart</button>
+                                                  
                         </div>
                     </a>                        
                     <div class="card-body text-center mt-3">
@@ -185,9 +185,7 @@
                         <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
 
                         <div class="product-action">
-                            <a class="btn btn-dark" href="#">
-                                <i class="fa fa-shopping-cart"></i> Add To Cart
-                            </a>                            
+                            <button onclick="addToCart({{ $product->id }})" data-add-to-cart-url="{{ route('user.addtocart') }}" class="btn btn-dark"><i class="fas fa-shopping-cart"></i>>Add to cart</button>                           
                         </div>
                     </div>                        
                     <div class="card-body text-center mt-3">

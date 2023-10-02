@@ -43,6 +43,7 @@
 
 	<!-- Fav Icon -->
 	<link rel="shortcut icon" type="image/x-icon" href="#" />
+	<meta name="csrf-token" content="{{csrf_token()}}">
 </head>
 <body data-instant-intensity="mousedown">
 
@@ -194,6 +195,32 @@ function myFunction() {
   } else {
     navbar.classList.remove("sticky");
   }
+}
+$.ajaxSetup({
+    headers: {
+    "X-CSRF-Token": $('meta[name="csrf-token"]').attr('content')
+  }
+});
+function addToCart(id) {
+    var addToCartUrl = $('button[onclick*="addToCart("]').data('add-to-cart-url');
+
+    $.ajax({
+        url: addToCartUrl,
+        type: 'post',
+        data: { id: id },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === true) {
+                window.location.href = "{{ route('user.cart') }}";
+                alert('Product added to cart successfully');
+            } else {
+                alert('Product could not be added to cart. ' + response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('An error occurred while adding the product to the cart.');
+        }
+    });
 }
 </script>
 @yield('customjs')

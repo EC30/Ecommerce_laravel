@@ -35,7 +35,10 @@ Route::get('/shop/{brandname?}', [ShopController::class, 'index'])->name('front.
 //Route::get('/product/{title}', [ShopController::class, 'shopCart'])->name('front.product');
 Route::get('/products/{title}', [ShopController::class, 'product'])->name('front.product');
 
-
+Route::post('/addtocart', [CartController::class, 'addToCart'])->name('user.addtocart');
+Route::post('/updatecart', [CartController::class, 'updateCart'])->name('user.updatecart');
+Route::post('/deletecart', [CartController::class, 'deleteCart'])->name('user.deletecart');
+Route::get('/cart', [CartController::class, 'cart'])->name('user.cart');
 
 Route::group(['prefix'=>'user'],function(){
     Route::group(['middleware'=>'guest'],function(){
@@ -52,8 +55,6 @@ Route::group(['prefix'=>'user'],function(){
     });
 });
 
-Route::get('/product/{title}', [CartController::class, 'addToCart'])->name('front.addcart');
-Route::get('/cart', [CartController::class, 'cart'])->name('front.cart');
 
 Route::get('/admin/login', [AdminloginController::class, 'index'])->name('admin.login');
 Route::group(['prefix'=>'admin'],function(){
