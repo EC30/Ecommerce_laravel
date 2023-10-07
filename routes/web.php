@@ -13,6 +13,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserloginController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 
 /*
@@ -39,6 +40,10 @@ Route::post('/addtocart', [CartController::class, 'addToCart'])->name('user.addt
 Route::post('/updatecart', [CartController::class, 'updateCart'])->name('user.updatecart');
 Route::post('/deletecart', [CartController::class, 'deleteCart'])->name('user.deletecart');
 Route::get('/cart', [CartController::class, 'cart'])->name('user.cart');
+
+
+Route::get('/checkout', [CartController::class, 'checkout'])->name('user.checkout');
+Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
 
 Route::group(['prefix'=>'user'],function(){
     Route::group(['middleware'=>'guest'],function(){

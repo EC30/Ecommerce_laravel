@@ -15,8 +15,6 @@ class UserloginController extends Controller
     public function login(){
         return view('User.login');
     }
-
-
     public function authenticate(Request $request){
             $validator=Validator::make($request->all(),[
                 'email'=>'required|email',
@@ -29,6 +27,9 @@ class UserloginController extends Controller
             }
             $credentials = $request->only('email', 'password');
             if (Auth::attempt($credentials)) {
+                if(session()->has('url.intended')){
+                    return redirect(session()->get('url.intended'));
+                }
                 return redirect()->route('user.profile')->with('success', 'Login successful');
             } else{
                 return redirect()->route('user.login')->with('message', 'Invalid login credentials');

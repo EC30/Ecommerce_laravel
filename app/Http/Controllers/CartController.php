@@ -5,6 +5,7 @@ use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -109,5 +110,20 @@ class CartController extends Controller
         return view('User.cart',$data);
     }
     
+    public function checkout(){
+        $cartContent=Cart::content();
+        if(Cart::count()==0){
+            return redirect()->route('user.cart');
+        }
+        if(Auth::check()==false){
+            if(!session()->has('url.intended')){
+                session(['url.intended'=>url()->current()]);
+            }
+            return redirect()->route('user.login');
+        }
+        session()->forget('url.intended');
+        $data['cartContent']=$cartContent;
+        return view('User.checkout', $data);
+    }
 
 }
